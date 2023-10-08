@@ -8,7 +8,7 @@ Uses whiptail to create a nice menu.
 
 Options are:
 
-    * Pat with Direwolf
-    * Pat with Mobilinkd (Bluetooth)
-    * Kill all kiss* processes IDs
+* Pat with Direwolf
+* Pat with Mobilinkd (Bluetooth)
+* Kill all kiss* processes IDs
 
