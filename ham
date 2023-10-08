@@ -1,0 +1,95 @@
+#!/bin/bash
+# Created by KD9EJQ
+
+##############################
+# FUNCTIONS
+##############################
+
+pat-direwolf () {
+	# Start Direwolf in a new terminal, but continue on with script
+	sudo xterm -e 'figlet Direwolf;direwolf -p' &
+	# Check to see if the Direwolf symbolic link is active before continuing on...
+	while [ ! -L /tmp/kisstnc ]; do sleep .5; done
+	# Connect KISS
+	sudo kissattach /tmp/kisstnc wl2k
+	sudo kissparms -c 1 -p wl2k
+	# Start Pat with web interface
+	pat http
+	# Clean up after being done
+	sudo rm /tmp/kisstnc
+	sudo killall kissattach
+}
+
+pat-mobilinkd () {
+	# Connect via bluetooth to Mobilinkd
+	sudo xterm -e 'figlet Mobilinkd;rfcomm connect /dev/rfcomm0 34:81:F4:70:71:15 6' &
+	# Check to verify the Bluetooth connection is made before conitnuing on...
+	while [ ! -e /dev/rfcomm0 ]; do sleep .5; done
+	# Connect KISS
+	sudo kissattach /dev/rfcomm0 wl2k
+	# Start Pat with web interface
+	pat http
+	# Clean up after being done
+	sudo rfcomm release /dev/rfcomm0
+	sudo killall rfcomm
+	sudo killall kissattach
+}
+
+kill-kiss () {
+	sudo killall kissattach
+}
+
+
+
+######################################################################
+# MAIN
+######################################################################
+
+# Get the size of the current terminal window
+#eval `resize`
+
+# Check to make sure whiptail is installed and available, if not install it.
+if hash whiptail 2>/dev/null; then
+	# It's installed, there is nothing to do... continue on.
+	echo ""
+else
+	# Not installed, or we can't find it, so let's prompt to install it
+	echo "Bummer, whiptail is required for the menu of install options."
+	read -p "Would you like to install whiptail now (y/n)? "
+	case $(echo $REPLY | tr '[A-Z]' '[a-z]') in
+		y|yes) sudo apt update; sudo apt install -y whiptail ;;
+		*)     echo "OK, we shall skip it, but things will not work :-(" ;;
+	esac
+fi
+
+# Check how big the current screen/terminal is
+# LINES=`tput lines`
+# COLUMNS=`tput cols`
+HEIGHT=`stty size | cut -d" " -f1`
+WIDTH=`stty size | cut -d" " -f2`
+
+declare -a SELECTION
+
+# OK, this is a little tricky...
+#   but I've added a left and right () before and after so the variable is
+#   interperated as an array.
+#
+#   example of a possible value
+#             $SELECTION=(create-alias update-upgrade options ssh-config)
+SELECTION=( $(whiptail \
+--title "Ham Radio Tools" \
+--notags \
+--menu "Ham Radio - Some of the most common ham radio command line tools." \
+${HEIGHT} ${WIDTH} $((HEIGHT-8)) \
+	"pat-direwolf"			"Pat with Direwolf" \
+	"pat-mobilinkd"		"Pat with Mobilinkd (Bluetooth)" \
+	"kill-kiss"			"Kill all kiss* processes IDs" \
+	3>&1 1>&2 2>&3) )
+
+# Now loop through all the returned selections, which is stored in an array $SELECTION
+for i in "${SELECTION[@]}"
+do
+	$i
+done
+
+echo Now exiting from: ${i}
