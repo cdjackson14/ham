@@ -12,3 +12,6 @@ Options are:
 * Pat with Mobilinkd (Bluetooth)
 * Kill all kiss* processes IDs
 
+
+![ham screenshot](ham_ss.jpg)
+
