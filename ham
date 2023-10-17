@@ -5,6 +5,12 @@
 # FUNCTIONS
 ##############################
 
+pat-only () {
+	# Just run Pat by itself
+	# Using the Internet (telnet)
+	pat http
+}
+
 pat-direwolf () {
 	# Start Direwolf in a new terminal, but continue on with script
 	sudo xterm -e 'figlet Direwolf;direwolf -p' &
@@ -81,9 +87,10 @@ SELECTION=( $(whiptail \
 --notags \
 --menu "Ham Radio - Some of the most common ham radio command line tools." \
 ${HEIGHT} ${WIDTH} $((HEIGHT-8)) \
-	"pat-direwolf"			"Pat with Direwolf" \
+	"pat-only"		"Pat with Internet (telnet)" \
+	"pat-direwolf"		"Pat with Direwolf" \
 	"pat-mobilinkd"		"Pat with Mobilinkd (Bluetooth)" \
-	"kill-kiss"			"Kill all kiss* processes IDs" \
+	"kill-kiss"		"Kill all kiss* processes IDs" \
 	3>&1 1>&2 2>&3) )
 
 # Now loop through all the returned selections, which is stored in an array $SELECTION
