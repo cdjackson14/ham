@@ -25,3 +25,6 @@ For many Debian based systems, edit then copy the ham.desktop file to ~/.local/s
 cp ham.desktop ~/.local/share/applications/
 ```
 
+### Sources:
+
+* Ham radio icon from https://icons8.com/icons/set/ham-radio
