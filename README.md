@@ -12,6 +12,11 @@ Options are:
 * Pat with Mobilinkd (Bluetooth)
 * Kill all kiss* processes IDs
 
+For desktop icon to run, copy ham.desktop to ~/.local/share/applications/
+
+```bash
+cp ham.desktop ~/.local/share/applications/
+```
 
 ![ham screenshot](ham_ss.jpg)
 
