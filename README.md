@@ -6,15 +6,20 @@ This is a Bash script, developed on Xubuntu, so should work on most any Debian b
 
 Uses whiptail to create a nice menu.
 
+## Basic Use
+
 Options are:
 
+* Pat with Internet (telnet)
 * Pat with Direwolf
 * Pat with Mobilinkd (Bluetooth)
 * Kill all kiss* processes IDs
 
 ![ham screenshot](ham_ss.jpg)
 
-For desktop icon to run, copy ham.desktop to ~/.local/share/applications/
+## Icon and Desktop file
+
+For many Debian based systems, edit then copy the ham.desktop file to ~/.local/share/applications/ so you can run this from the GUI menu system.
 
 ```bash
 cp ham.desktop ~/.local/share/applications/
