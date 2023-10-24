@@ -1,9 +1,31 @@
 #!/bin/bash
 # Created by KD9EJQ
+#
+# Updates
+# 2023-10-24 Created pre-flight-check to evaluate software requirements
+#
+
 
 ##############################
 # FUNCTIONS
 ##############################
+pre-flight-check () {
+	clear
+	if ! hash ${1} 2>/dev/null; then
+		echo "WARNING"
+		echo ""
+		echo "${1} is missing!"
+		echo " +--------------------------------------"
+		echo " |  sudo apt update"
+		echo " |  sudo apt install -y ${1}"
+		echo " +--------------------------------------"
+		read -p "Would you like to install now (y/n)? "
+		case $(echo $REPLY | tr '[A-Z]' '[a-z]') in
+			y|yes) sudo apt update; sudo apt install -y ${appName} ;;
+			*)     echo "OK, we shall skip it, but things may break :-(" ;;
+		esac
+	fi
+}
 
 pat-only () {
 	# Just run Pat by itself
@@ -51,8 +73,10 @@ kill-kiss () {
 # MAIN
 ######################################################################
 
-# Get the size of the current terminal window
-#eval `resize`
+# Check to verify all depend software is installed
+pre-flight-check whiptail
+pre-flight-check tmux
+pre-flight-check figlet 
 
 # Check to make sure whiptail is installed and available, if not install it.
 if hash whiptail 2>/dev/null; then
