@@ -21,7 +21,7 @@ pre-flight-check () {
 		echo " +--------------------------------------"
 		read -p "Would you like to install now (y/n)? "
 		case $(echo $REPLY | tr '[A-Z]' '[a-z]') in
-			y|yes) sudo apt update; sudo apt install -y ${appName} ;;
+			y|yes) sudo apt update; sudo apt install -y ${1} ;;
 			*)     echo "OK, we shall skip it, but things may break :-(" ;;
 		esac
 	fi
